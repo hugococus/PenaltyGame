@@ -1,0 +1,29 @@
+Chute:
+
+Probabilidade de acertar o gol:
+- Inferior:
+-- Esquerda = 70%
+-- Centro = 95%
+-- Direita = 70%
+
+- Superior:
+-- Esquerda = 50%
+-- Centro = 65%
+-- Direita = 50%
+
+
+
+Goleiro
+
+O Goleiro tem 40% de chance de acertar a direção do chute, se ele acertar ele ganha um bônus de defesa de 30%.
+
+Probabilidade de Defesa:
+- Inferior:
+-- Esquerda = 40%
+-- Centro = 60%
+-- Direita = 40%
+
+- Superior:
+-- Esquerda = 10%
+-- Centro = 35%
+-- Direita = 10%
