@@ -5,6 +5,8 @@
  */
 package penaltygame;
 
+import java.util.Random;
+
 /**
  *
  * @author Lab
@@ -14,6 +16,9 @@ public class PenaltyGame extends javax.swing.JFrame {
     /**
      * Creates new form PenaltyGame
      */
+    int gol = 0;
+    int erro = 0;
+
     public PenaltyGame() {
         initComponents();
     }
@@ -30,7 +35,7 @@ public class PenaltyGame extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbPlacar = new javax.swing.JLabel();
         btChutar = new javax.swing.JButton();
         rbEsqSup = new javax.swing.JRadioButton();
         rbEsqInf = new javax.swing.JRadioButton();
@@ -38,11 +43,12 @@ public class PenaltyGame extends javax.swing.JFrame {
         rbCenInf = new javax.swing.JRadioButton();
         rbDirSup = new javax.swing.JRadioButton();
         rbDirInf = new javax.swing.JRadioButton();
+        lbResultado = new javax.swing.JLabel();
         lbGol = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(0, 255, 51));
@@ -52,37 +58,57 @@ public class PenaltyGame extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 610, 40));
 
-        jLabel2.setBackground(new java.awt.Color(51, 153, 255));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("GOLS 0 X 0 ERROS");
-        jLabel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PLACAR", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-        jLabel2.setOpaque(true);
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 230, 80));
+        lbPlacar.setBackground(new java.awt.Color(51, 153, 255));
+        lbPlacar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbPlacar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbPlacar.setText("GOLS 0 X 0 ERROS");
+        lbPlacar.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PLACAR", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        lbPlacar.setOpaque(true);
+        jPanel1.add(lbPlacar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 230, 80));
 
         btChutar.setText("Chutar");
-        jPanel1.add(btChutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, -1, -1));
+        btChutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btChutarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btChutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, 230, -1));
 
+        buttonGroup1.add(rbEsqSup);
         rbEsqSup.setOpaque(false);
         jPanel1.add(rbEsqSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, -1));
 
+        buttonGroup1.add(rbEsqInf);
         rbEsqInf.setOpaque(false);
         jPanel1.add(rbEsqInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, -1, -1));
 
+        buttonGroup1.add(rbCenSup);
         rbCenSup.setOpaque(false);
         jPanel1.add(rbCenSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
 
+        buttonGroup1.add(rbCenInf);
+        rbCenInf.setSelected(true);
         rbCenInf.setOpaque(false);
         jPanel1.add(rbCenInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
+        buttonGroup1.add(rbDirSup);
         rbDirSup.setOpaque(false);
         jPanel1.add(rbDirSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, -1, -1));
 
+        buttonGroup1.add(rbDirInf);
         rbDirInf.setOpaque(false);
         jPanel1.add(rbDirInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, -1, -1));
 
+        lbResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbResultado.setText("jLabel2");
+        lbResultado.setBorder(new javax.swing.border.MatteBorder(null));
+        lbResultado.setOpaque(true);
+        jPanel1.add(lbResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 170, 220, 60));
+
         lbGol.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbGol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/GOL.png"))); // NOI18N
+        lbGol.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(lbGol, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 460, 230));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -98,6 +124,62 @@ public class PenaltyGame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btChutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChutarActionPerformed
+        // TODO add your handling code here:
+        Random gerador = new Random(); //Gerador Aleatório
+        int chute = gerador.nextInt(100) + 1; // Gera um número de 1 a 100
+        int chance = 0;
+
+        // Goleiro
+        int acertarCanto = gerador.nextInt(100) + 1;
+        int defender = gerador.nextInt(100) + 1;
+        int chance_defesa = 0;
+        int bonus_defesa = 0;
+        // ------
+
+        if (rbEsqInf.isSelected() || rbDirInf.isSelected()) {
+            chance = 70;
+            chance_defesa = 40;
+        } else if (rbEsqSup.isSelected() || rbDirSup.isSelected()) {
+            chance = 50;
+            chance_defesa = 10;
+        } else if (rbCenInf.isSelected()) {
+            chance = 95;
+            chance_defesa = 60;
+        } else if (rbCenSup.isSelected()) {
+            chance = 65;
+            chance_defesa = 35;
+        }
+
+        
+        if (chute <= chance) {
+            System.out.println("A bola foi em direção ao gol!");
+            if (acertarCanto <= 40) {
+                chance_defesa += 30;
+                System.out.print("O Goleiro Acertou o canto");
+            }
+            
+            if (defender <= chance_defesa) {
+                System.out.println(" e defendeu!");
+                erro++;
+            } else {
+                System.out.println("Golaço!");
+                gol++;
+            }
+
+        } else {
+            System.out.println("Para FORA!");
+            erro++;
+        }
+
+        lbPlacar.setText("GOLS " + gol + " X " + erro + " ERROS");
+
+        lbGols.setText(Integer.toString(gol));
+        lbErros.setText(Integer.toString(erro));
+        System.out.println("");
+
+    }//GEN-LAST:event_btChutarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,14 +215,21 @@ public class PenaltyGame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void resultado(String r) {
+        
+        
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btChutar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbGol;
+    private javax.swing.JLabel lbPlacar;
+    private javax.swing.JLabel lbResultado;
     private javax.swing.JRadioButton rbCenInf;
     private javax.swing.JRadioButton rbCenSup;
     private javax.swing.JRadioButton rbDirInf;
