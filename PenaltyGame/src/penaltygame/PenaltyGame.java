@@ -6,6 +6,7 @@
 package penaltygame;
 
 import java.util.Random;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -18,9 +19,19 @@ public class PenaltyGame extends javax.swing.JFrame {
      */
     int gol = 0;
     int erro = 0;
+    DefaultListModel<String> listaInventario = new DefaultListModel<>();
+    DefaultListModel<String> listaEquipado = new DefaultListModel<>();
+    
+            
 
     public PenaltyGame() {
         initComponents();
+        lbResultado.setVisible(false);
+        listaInventario.addElement("Chuteira CR7");
+        listaInventario.addElement("Bomba Fumaça");
+        listaInventario.addElement("Meia ZigZag");
+        listaInventario.addElement("Lanterna");
+        
     }
 
     /**
@@ -34,6 +45,7 @@ public class PenaltyGame extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        lbResultado = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lbPlacar = new javax.swing.JLabel();
         btChutar = new javax.swing.JButton();
@@ -43,28 +55,44 @@ public class PenaltyGame extends javax.swing.JFrame {
         rbCenInf = new javax.swing.JRadioButton();
         rbDirSup = new javax.swing.JRadioButton();
         rbDirInf = new javax.swing.JRadioButton();
-        lbResultado = new javax.swing.JLabel();
         lbGol = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jlInventario = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jlEquipado = new javax.swing.JList();
+        btParaEquip = new javax.swing.JButton();
+        btParaInvetario = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbResultado.setToolTipText("");
+        lbResultado.setBorder(new javax.swing.border.MatteBorder(null));
+        lbResultado.setOpaque(true);
+        jPanel1.add(lbResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 220, 60));
+
         jLabel1.setBackground(new java.awt.Color(0, 255, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("PENALTY GAME");
         jLabel1.setOpaque(true);
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 610, 40));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 870, 40));
 
         lbPlacar.setBackground(new java.awt.Color(51, 153, 255));
         lbPlacar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbPlacar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbPlacar.setText("GOLS 0 X 0 ERROS");
-        lbPlacar.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PLACAR", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        lbPlacar.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "PLACAR", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
         lbPlacar.setOpaque(true);
-        jPanel1.add(lbPlacar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 230, 80));
+        jPanel1.add(lbPlacar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 230, 80));
 
         btChutar.setText("Chutar");
         btChutar.addActionListener(new java.awt.event.ActionListener() {
@@ -72,57 +100,136 @@ public class PenaltyGame extends javax.swing.JFrame {
                 btChutarActionPerformed(evt);
             }
         });
-        jPanel1.add(btChutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, 230, -1));
+        jPanel1.add(btChutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 230, -1));
 
         buttonGroup1.add(rbEsqSup);
         rbEsqSup.setOpaque(false);
-        jPanel1.add(rbEsqSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, -1));
+        jPanel1.add(rbEsqSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
 
         buttonGroup1.add(rbEsqInf);
         rbEsqInf.setOpaque(false);
-        jPanel1.add(rbEsqInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, -1, -1));
+        jPanel1.add(rbEsqInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         buttonGroup1.add(rbCenSup);
         rbCenSup.setOpaque(false);
-        jPanel1.add(rbCenSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
+        jPanel1.add(rbCenSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
         buttonGroup1.add(rbCenInf);
         rbCenInf.setSelected(true);
         rbCenInf.setOpaque(false);
-        jPanel1.add(rbCenInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
+        jPanel1.add(rbCenInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, -1, -1));
 
         buttonGroup1.add(rbDirSup);
         rbDirSup.setOpaque(false);
-        jPanel1.add(rbDirSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, -1, -1));
+        jPanel1.add(rbDirSup, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, -1, -1));
 
         buttonGroup1.add(rbDirInf);
         rbDirInf.setOpaque(false);
-        jPanel1.add(rbDirInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, -1, -1));
-
-        lbResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbResultado.setText("jLabel2");
-        lbResultado.setBorder(new javax.swing.border.MatteBorder(null));
-        lbResultado.setOpaque(true);
-        jPanel1.add(lbResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 170, 220, 60));
+        jPanel1.add(rbDirInf, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, -1, -1));
 
         lbGol.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbGol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/GOL.png"))); // NOI18N
         lbGol.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(lbGol, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 460, 230));
+        jPanel1.add(lbGol, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 460, 230));
+
+        jPanel2.setBackground(new java.awt.Color(51, 51, 0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jlInventario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlInventario.setModel(listaInventario);
+        jlInventario.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jlInventario.setToolTipText("");
+        jScrollPane1.setViewportView(jlInventario);
+
+        jlEquipado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlEquipado.setModel(listaEquipado);
+        jlEquipado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(jlEquipado);
+
+        btParaEquip.setText(">>");
+
+        btParaInvetario.setText("<<");
+        btParaInvetario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btParaInvetarioActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Serif", 0, 11)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("INVENTARIO");
+
+        jLabel4.setFont(new java.awt.Font("Serif", 0, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("EQUIPADO");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btParaInvetario)
+                    .addComponent(btParaEquip))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(btParaEquip)
+                        .addGap(33, 33, 33)
+                        .addComponent(btParaInvetario)))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, 340, 240));
+
+        jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("SELEÇÃO DE EQUIPAMENTOS");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 340, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btChutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChutarActionPerformed
@@ -152,34 +259,52 @@ public class PenaltyGame extends javax.swing.JFrame {
             chance_defesa = 35;
         }
 
-        
+        try {
+        lbResultado.setVisible(true);
+        //lbResultado.setComponentZOrder(this, 0);
         if (chute <= chance) {
             System.out.println("A bola foi em direção ao gol!");
+            lbResultado.setText("A bola foi em direção ao gol!");
+            Thread.sleep(1000);
             if (acertarCanto <= 40) {
                 chance_defesa += 30;
                 System.out.print("O Goleiro Acertou o canto");
+                lbResultado.setText("O Goleiro Acertou o canto");
+                Thread.sleep(1000);
             }
-            
+
             if (defender <= chance_defesa) {
                 System.out.println(" e defendeu!");
+                lbResultado.setText("E defendeu");
+                Thread.sleep(1000);
                 erro++;
             } else {
                 System.out.println("Golaço!");
+                lbResultado.setText("Golaço!");
+                Thread.sleep(1000);
                 gol++;
             }
 
         } else {
             System.out.println("Para FORA!");
+            lbResultado.setText("Para Fora!");
+            Thread.sleep(1000);
             erro++;
+        }
+        lbResultado.setVisible(false);
+        } catch (Exception e) {
+            
         }
 
         lbPlacar.setText("GOLS " + gol + " X " + erro + " ERROS");
 
-        lbGols.setText(Integer.toString(gol));
-        lbErros.setText(Integer.toString(erro));
         System.out.println("");
 
     }//GEN-LAST:event_btChutarActionPerformed
+
+    private void btParaInvetarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btParaInvetarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btParaInvetarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,18 +340,26 @@ public class PenaltyGame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void resultado(String r) {
-        
-        
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btChutar;
+    private javax.swing.JButton btParaEquip;
+    private javax.swing.JButton btParaInvetario;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList jlEquipado;
+    private javax.swing.JList jlInventario;
     private javax.swing.JLabel lbGol;
     private javax.swing.JLabel lbPlacar;
     private javax.swing.JLabel lbResultado;
