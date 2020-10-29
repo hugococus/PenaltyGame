@@ -19,19 +19,19 @@ public class PenaltyGame extends javax.swing.JFrame {
      */
     int gol = 0;
     int erro = 0;
+    int bonusChute = 0;
+    int bonusAcertarCanto = 0;
+    int bonusDefesa = 0;
+
     DefaultListModel<String> listaInventario = new DefaultListModel<>();
     DefaultListModel<String> listaEquipado = new DefaultListModel<>();
-    
-            
 
     public PenaltyGame() {
         initComponents();
-        lbResultado.setVisible(false);
         listaInventario.addElement("Chuteira CR7");
-        listaInventario.addElement("Bomba Fumaça");
-        listaInventario.addElement("Meia ZigZag");
-        listaInventario.addElement("Lanterna");
-        
+        listaInventario.addElement("Juliete");
+        listaInventario.addElement("Smoke");
+
     }
 
     /**
@@ -45,7 +45,6 @@ public class PenaltyGame extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        lbResultado = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lbPlacar = new javax.swing.JLabel();
         btChutar = new javax.swing.JButton();
@@ -61,8 +60,8 @@ public class PenaltyGame extends javax.swing.JFrame {
         jlInventario = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         jlEquipado = new javax.swing.JList();
-        btParaEquip = new javax.swing.JButton();
-        btParaInvetario = new javax.swing.JButton();
+        btEquipar = new javax.swing.JButton();
+        btDesequipar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -71,13 +70,6 @@ public class PenaltyGame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lbResultado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbResultado.setToolTipText("");
-        lbResultado.setBorder(new javax.swing.border.MatteBorder(null));
-        lbResultado.setOpaque(true);
-        jPanel1.add(lbResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 220, 60));
 
         jLabel1.setBackground(new java.awt.Color(0, 255, 51));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -146,12 +138,17 @@ public class PenaltyGame extends javax.swing.JFrame {
         jlEquipado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jlEquipado);
 
-        btParaEquip.setText(">>");
-
-        btParaInvetario.setText("<<");
-        btParaInvetario.addActionListener(new java.awt.event.ActionListener() {
+        btEquipar.setText(">>");
+        btEquipar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btParaInvetarioActionPerformed(evt);
+                btEquiparActionPerformed(evt);
+            }
+        });
+
+        btDesequipar.setText("<<");
+        btDesequipar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDesequiparActionPerformed(evt);
             }
         });
 
@@ -176,8 +173,8 @@ public class PenaltyGame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btParaInvetario)
-                    .addComponent(btParaEquip))
+                    .addComponent(btDesequipar)
+                    .addComponent(btEquipar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -201,9 +198,9 @@ public class PenaltyGame extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(78, 78, 78)
-                        .addComponent(btParaEquip)
+                        .addComponent(btEquipar)
                         .addGap(33, 33, 33)
-                        .addComponent(btParaInvetario)))
+                        .addComponent(btDesequipar)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -242,7 +239,6 @@ public class PenaltyGame extends javax.swing.JFrame {
         int acertarCanto = gerador.nextInt(100) + 1;
         int defender = gerador.nextInt(100) + 1;
         int chance_defesa = 0;
-        int bonus_defesa = 0;
         // ------
 
         if (rbEsqInf.isSelected() || rbDirInf.isSelected()) {
@@ -259,41 +255,26 @@ public class PenaltyGame extends javax.swing.JFrame {
             chance_defesa = 35;
         }
 
-        try {
-        lbResultado.setVisible(true);
-        //lbResultado.setComponentZOrder(this, 0);
-        if (chute <= chance) {
+        // Lógica do chute
+        if (chute <= (chance + bonusChute) ) {
             System.out.println("A bola foi em direção ao gol!");
-            lbResultado.setText("A bola foi em direção ao gol!");
-            Thread.sleep(1000);
-            if (acertarCanto <= 40) {
+
+            if (acertarCanto <= (40 + bonusAcertarCanto) ) {
                 chance_defesa += 30;
                 System.out.print("O Goleiro Acertou o canto");
-                lbResultado.setText("O Goleiro Acertou o canto");
-                Thread.sleep(1000);
             }
 
-            if (defender <= chance_defesa) {
+            if (defender <= (chance_defesa + bonusDefesa) ) {
                 System.out.println(" e defendeu!");
-                lbResultado.setText("E defendeu");
-                Thread.sleep(1000);
                 erro++;
             } else {
                 System.out.println("Golaço!");
-                lbResultado.setText("Golaço!");
-                Thread.sleep(1000);
                 gol++;
             }
 
         } else {
             System.out.println("Para FORA!");
-            lbResultado.setText("Para Fora!");
-            Thread.sleep(1000);
             erro++;
-        }
-        lbResultado.setVisible(false);
-        } catch (Exception e) {
-            
         }
 
         lbPlacar.setText("GOLS " + gol + " X " + erro + " ERROS");
@@ -302,9 +283,57 @@ public class PenaltyGame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btChutarActionPerformed
 
-    private void btParaInvetarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btParaInvetarioActionPerformed
+    private void btDesequiparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDesequiparActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btParaInvetarioActionPerformed
+        String texto = (String) jlEquipado.getSelectedValue();
+        listaInventario.addElement(texto);
+        listaEquipado.removeElement(texto);
+
+        if (texto.equals("Chuteira CR7")) {
+            bonusChute -= 30;
+            //bonusAcertarCanto += 0;
+            bonusDefesa += 10;
+        } else if (texto.equals("Juliete")) {
+            bonusChute += 5;
+            bonusAcertarCanto += 30;
+            //bonusDefesa += 0;
+        } else if (texto.equals("Smoke")) {
+            bonusChute += 10;
+            bonusAcertarCanto += 20;
+            bonusDefesa += 20;
+        }
+        System.out.println("");
+        System.out.println("Bonus Chute: " + bonusChute);
+        System.out.println("Bonus Acertar Canto: " + bonusAcertarCanto);
+        System.out.println("Bonus Defesa: " + bonusDefesa);
+
+    }//GEN-LAST:event_btDesequiparActionPerformed
+
+    private void btEquiparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEquiparActionPerformed
+        // TODO add your handling code here:
+        String texto = (String) jlInventario.getSelectedValue();
+        listaEquipado.addElement(texto);
+        listaInventario.removeElement(texto);
+
+        if (texto.equals("Chuteira CR7")) {
+            bonusChute += 30;
+            //bonusAcertarCanto += 0;
+            bonusDefesa -= 10;
+        } else if (texto.equals("Juliete")) {
+            bonusChute -= 5;
+            bonusAcertarCanto -= 30;
+            //bonusDefesa += 0;
+        } else if (texto.equals("Smoke")) {
+            bonusChute -= 10;
+            bonusAcertarCanto -= 20;
+            bonusDefesa -= 20;
+        }
+        
+        System.out.println("");
+        System.out.println("Bonus Chute: " + bonusChute);
+        System.out.println("Bonus Acertar Canto: " + bonusAcertarCanto);
+        System.out.println("Bonus Defesa: " + bonusDefesa);
+    }//GEN-LAST:event_btEquiparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,8 +376,8 @@ public class PenaltyGame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btChutar;
-    private javax.swing.JButton btParaEquip;
-    private javax.swing.JButton btParaInvetario;
+    private javax.swing.JButton btDesequipar;
+    private javax.swing.JButton btEquipar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -362,7 +391,6 @@ public class PenaltyGame extends javax.swing.JFrame {
     private javax.swing.JList jlInventario;
     private javax.swing.JLabel lbGol;
     private javax.swing.JLabel lbPlacar;
-    private javax.swing.JLabel lbResultado;
     private javax.swing.JRadioButton rbCenInf;
     private javax.swing.JRadioButton rbCenSup;
     private javax.swing.JRadioButton rbDirInf;
