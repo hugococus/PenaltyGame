@@ -26,11 +26,18 @@ public class PenaltyGame extends javax.swing.JFrame {
     DefaultListModel<String> listaInventario = new DefaultListModel<>();
     DefaultListModel<String> listaEquipado = new DefaultListModel<>();
 
+    Equipamentos[] equips = new Equipamentos[5];
+
     public PenaltyGame() {
         initComponents();
-        listaInventario.addElement("Chuteira CR7");
-        listaInventario.addElement("Juliete");
-        listaInventario.addElement("Smoke");
+
+        equips[0] = new Equipamentos("Chuteira CR7", 30, 0, -10);
+        equips[1] = new Equipamentos("Juliete", -5, -30, 0);
+        equips[2] = new Equipamentos("Smoke", -10, -20, -20);
+
+        listaInventario.addElement(equips[0].getNome());
+        listaInventario.addElement(equips[1].getNome());
+        listaInventario.addElement(equips[2].getNome());
 
     }
 
@@ -256,15 +263,15 @@ public class PenaltyGame extends javax.swing.JFrame {
         }
 
         // Lógica do chute
-        if (chute <= (chance + bonusChute) ) {
+        if (chute <= (chance + bonusChute)) {
             System.out.println("A bola foi em direção ao gol!");
 
-            if (acertarCanto <= (40 + bonusAcertarCanto) ) {
+            if (acertarCanto <= (40 + bonusAcertarCanto)) {
                 chance_defesa += 30;
                 System.out.print("O Goleiro Acertou o canto");
             }
 
-            if (defender <= (chance_defesa + bonusDefesa) ) {
+            if (defender <= (chance_defesa + bonusDefesa)) {
                 System.out.println(" e defendeu!");
                 erro++;
             } else {
@@ -314,19 +321,19 @@ public class PenaltyGame extends javax.swing.JFrame {
         String texto = (String) jlInventario.getSelectedValue();
         listaEquipado.addElement(texto);
         listaInventario.removeElement(texto);
-
+        
         if (texto.equals("Chuteira CR7")) {
-            bonusChute += 30;
+            bonusChute += equips[0].getBonusChute();
             //bonusAcertarCanto += 0;
-            bonusDefesa -= 10;
+            bonusDefesa += equips[0].getBonusDefesa();
         } else if (texto.equals("Juliete")) {
-            bonusChute -= 5;
-            bonusAcertarCanto -= 30;
+            bonusChute += equips[1].getBonusChute();
+            bonusAcertarCanto += equips[1].getBonusAcertarCanto();
             //bonusDefesa += 0;
         } else if (texto.equals("Smoke")) {
-            bonusChute -= 10;
-            bonusAcertarCanto -= 20;
-            bonusDefesa -= 20;
+            bonusChute += equips[1].getBonusChute();
+            bonusAcertarCanto += equips[2].getBonusAcertarCanto();
+            bonusDefesa += equips[1].getBonusDefesa();
         }
         
         System.out.println("");
